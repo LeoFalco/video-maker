@@ -1,9 +1,4 @@
-// código extraído da documentação do @std/esm
-// entry.js
-require = require("@std/esm")(module);
-module.exports = require("./main.mjs").default;
-
-import readline from "readline-sync";
+const readline = require("readline-sync");
 
 function start() {
     const content = {};
@@ -12,13 +7,14 @@ function start() {
     content.prefix = askAndReturnPrefix();
 
     function askAndReturnSearchTerm() {
-
-        return "termo";
+        return readline.question("Type a Wikipedia search term: ");
     }
 
 
     function askAndReturnPrefix() {
-        return "prefix";
+        const options = ["Who is", "What is", "The history of"];
+        let index = readline.keyInSelect(options, "Select a prefix:");
+        return options[index];
     }
 
     console.log(content);
