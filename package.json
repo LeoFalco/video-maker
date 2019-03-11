@@ -1,0 +1,21 @@
+{
+  "name": "video-maker",
+  "version": "1.0.0",
+  "description": "boot automatizado para montar videos de acordo com os termos apresentados",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bot",
+    "video",
+    "video-maker",
+    "ia",
+    "machene",
+    "learning",
+    "felipe",
+    "dechamps"
+  ],
+  "author": "Leonardo Jesus Falco",
+  "license": "MIT"
+}
