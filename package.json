@@ -17,5 +17,8 @@
     "dechamps"
   ],
   "author": "Leonardo Jesus Falco",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
 }
