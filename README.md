@@ -1,2 +1,2 @@
 # video-maker
-robo para montagem de videos automatizados
+robô para montagem de videos automatizados
