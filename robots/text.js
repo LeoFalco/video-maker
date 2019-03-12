@@ -8,14 +8,11 @@ async function robot(content) {
 
     async function fetchContentFromWikipedia(content) {
         console.log("fetch from wikipedia")
-        const algorithmiaAuthenticated = algorithmia('simZSwLQqTEddMOOYcnP1TGS2xg1')
-        const wikipediaAlgorithm = algorithmiaAuthenticated.algo('web/WikipediaParser/0.1.2')
-        const wikipediaResponde = await wikipediaAlgorithm.pipe(content.searchTerm)
+        const wikipediaResponde = await algorithmia.client('simZSwLQqTEddMOOYcnP1TGS2xg1')
+            .algo('web/WikipediaParser/0.1.2')
+            .pipe(content.searchTerm)
 
-        let wikipediaContent = wikipediaResponde.get()
-
-
-        content.sourceContentOriginal = wikipediaContent.content;
+        content.sourceContentOriginal = wikipediaResponde.get().content
     }
 
     function sanitizeContent(content) {
@@ -24,6 +21,7 @@ async function robot(content) {
 
         content.sourceContentSanitized = withoutSpecialChars;
 
+        console.log(content.sourceContentSanitized);
         breakContentIntoSentences(content);
 
         function removeBlankLinesAndMarkDown(text) {
@@ -32,9 +30,19 @@ async function robot(content) {
                     // linha existe
                     // nao e vazia
                     // nao começa com '='
-                    return line && (line.trim().length !== 0) && (!line.startsWith('='))
+                    return lineIsNotEmpty(line) &&
+                        lineIsNotMarkdownToken(line)
                 })
                 .join(' ');
+
+            function lineIsNotEmpty(line) {
+                return line && (line.trim().length !== 0)
+            }
+
+            function lineIsNotMarkdownToken(line) {
+                return !line.startsWith('=');
+            }
+
         }
 
         function removeSpecialChars(text) {
@@ -43,8 +51,14 @@ async function robot(content) {
     }
 
     function breakContentIntoSentences(content) {
-    
-        let sentences = sentenceDetection.sentences(content.sourceContentSanitized);
+
+        function lineIsNotTooShortOrLong(line) {
+            return line.length >= 50 && line.length <= 140;
+
+        }
+
+        let sentences = sentenceDetection.sentences(content.sourceContentSanitized)
+            .filter(lineIsNotTooShortOrLong);
         content.sentences = [];
 
         sentences.forEach((sentence) => {
@@ -56,6 +70,7 @@ async function robot(content) {
         });
 
         console.log(content.sentences)
+
     }
 
     //sanitizeContent(content);
