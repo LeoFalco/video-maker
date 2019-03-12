@@ -19,7 +19,9 @@
   "author": "Leonardo Jesus Falco",
   "license": "MIT",
   "dependencies": {
+    "algorithmia": "^0.3.10",
     "nvm": "0.0.4",
-    "readline-sync": "^1.4.9"
+    "readline-sync": "^1.4.9",
+    "sbd": "^1.0.14"
   }
 }
